@@ -1,0 +1,26 @@
+services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: bank-app
+      POSTGRES_PASSWORD: 123456
+      POSTGRES_DB: bank-app
+    ports:
+      - 5432:5432
+    volumes:
+      - /workspaces/banking-app/pgdata:/var/lib/postgresql/data
+
+  api:
+    build: .
+    ports:
+      - 5000:5000
+    depends_on:
+      - db
+    restart: always
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
